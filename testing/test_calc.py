@@ -7,10 +7,11 @@ import pytest
 from python_code.calc import Calculator
 
 with open('./datas/calc.yaml') as f:
-    data = yaml.safe_load(f)['add']
-    add_data = data['datas']
-    myid = data['myid']
-
+    data = yaml.safe_load(f)
+    add_data = data['add']['datas']
+    myid = data['add']['myid']
+    sub_data = data['sub']['datas']
+    sub_myid = data['sub']['myid']
 
 class TestCalc:
 
@@ -34,6 +35,13 @@ class TestCalc:
         if isinstance(result, float):
             result = round(result, 2)
         # 进行断言
+        assert result == expect
+
+    @pytest.mark.parametrize('a, b, expect', sub_data, ids=sub_myid)
+    def test_sub(self, a, b, expect):
+        result = self.calc.sub(a, b)
+        if isinstance(result, float):
+            result = round(result, 2)
         assert result == expect
 
     # def test_add1(self):
